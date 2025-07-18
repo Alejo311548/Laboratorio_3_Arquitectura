@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: kbt-mysql
+    environment:
+      MYSQL_DATABASE: kbt_db
+      MYSQL_USER: kbtuser
+      MYSQL_PASSWORD: kbtpass
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - kbt-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 10s
+      retries: 10
+
+  app:
+    build: .
+    container_name: kbt-app
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/kbt_db?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC&autoReconnect=true
+      SPRING_DATASOURCE_USERNAME: kbtuser
+      SPRING_DATASOURCE_PASSWORD: kbtpass
+      SPRING_JPA_HIBERNATE_DDL-AUTO: update
+    networks:
+      - kbt-network
+    restart: on-failure
+
+volumes:
+  db_data:
+
+networks:
+  kbt-network:
