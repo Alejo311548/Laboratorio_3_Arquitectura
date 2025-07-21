@@ -1,4 +1,4 @@
-# Proyecto de Despliegue de Aplicación Spring Boot con MySQL en Kubernetes usando ArgoCD
+# Proyecto de despliegue de aplicación (API REST) Spring Boot con MySQL en Kubernetes usando ArgoCD
 # Alejandro Vargas Ocampo  
 Arquitectura de Software
  
