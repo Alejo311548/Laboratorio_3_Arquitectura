@@ -36,4 +36,4 @@ Los siguientes manifiestos Kubernetes se encuentran en la raíz del repositorio:
 - `springboot-service.yaml`
 
 
-minikube start --memory=4096 --cpus=2
+
